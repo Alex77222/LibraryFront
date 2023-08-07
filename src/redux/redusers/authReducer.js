@@ -1,4 +1,5 @@
-﻿
+﻿import {authAPI} from "../../api/api";
+
 const SET_TOKEN = 'SET_TOKEN';
 const SET_AUTH_ERRORS = 'SET_AUTH_ERRORS';
 const UPDATE_USERNAME = 'UPDATE_USERNAME';
@@ -15,8 +16,8 @@ let initialState = {
     passText:'',
     roles:[],
     userNameText:'',
-    isAuthorized:false
-};
+    isAuthorized:false,
+}; 
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -111,7 +112,7 @@ export const getRoles = () => (dispatch) => {
 export const login = (userName, password) => (dispatch) => {
     authAPI.login(userName, password).then(response => {
         if (response.data.isSuccess) {
-            dispatch(setToken(response.data.data.token));
+            dispatch(setToken(response.data.token));
         } else {
             switch (response.status) {
                 case 400:
@@ -126,3 +127,5 @@ export const login = (userName, password) => (dispatch) => {
         }
     });
 }
+
+export default authReducer;
